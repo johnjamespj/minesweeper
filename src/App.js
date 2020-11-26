@@ -71,24 +71,24 @@ function GameBoard({ mine, onWin, onLose, onNewGame }) {
     if (!paused) {
       updateActivity();
       updateGrid();
+      incrementMoves();
 
       if (!mine.toggleFlag(x, y) && mine.isWin)
         onWin();
 
       updateFlags();
     }
-    incrementMoves();
   }
 
   const onOpen = (x, y) => {
     if (!paused) {
       updateActivity();
       updateGrid();
+      incrementMoves();
 
       if (!mine.open(x, y))
         onLose();
     }
-    incrementMoves();
   }
 
   const onContextMenu = (e) => {
