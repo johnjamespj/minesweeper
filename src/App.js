@@ -72,7 +72,7 @@ function GameBoard({ mine, onWin, onLose, onNewGame }) {
       updateActivity();
       updateGrid();
 
-      if (!mine.toggleFlag(x, y))
+      if (!mine.toggleFlag(x, y) && mine.isWin)
         onWin();
 
       updateFlags();
