@@ -1,4 +1,4 @@
-export default (props) => (
+const Bomb = (props) => (
     <svg x="0px" y="0px" viewBox="0 0 397.541 397.541" {...props} >
         <g>
             <path d="M314.211,125.461l-0.16,0.08h-40c-18.053-0.044-32.676-14.667-32.72-32.72v-43.84
@@ -38,3 +38,5 @@ export default (props) => (
         </g>
     </svg>
 );
+
+export default Bomb;

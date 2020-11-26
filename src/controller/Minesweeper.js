@@ -48,8 +48,8 @@ function throwDimensionError(d, value) {
     throw new Error(`Out of Range: ${d}(${value}) should be above 0`);
 }
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+function getRandomInt() {
+    return Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER));
 }
 
 function getValuesAround(ary = [[]], x = 0, y = 0) {
@@ -77,20 +77,31 @@ function getValuesAround(ary = [[]], x = 0, y = 0) {
     return retVal;
 }
 
+function isNumeric(num) {
+    return !isNaN(num)
+}
+
+function hashString(str) {
+    var hash = 0, i, chr;
+    for (i = 0; i < str.length; i++) {
+        chr = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+
 export const MAX_SEED_RANGE = 10000000;
 export const DEFAULT_MINE_COUNT = 10;
 export const DEFAULT_HEIGHT = 10;
 export const DEFAULT_WIDTH = 10;
 
 export class Minesweeper {
-    constructor(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, mineCount = DEFAULT_MINE_COUNT, { seed = getRandomInt(MAX_SEED_RANGE) } = {}) {
+    constructor(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, mineCount = DEFAULT_MINE_COUNT, { seed = getRandomInt() } = {}) {
         this._flagCount = 0;
         this._mineCount = mineCount;
         this._width = width;
         this._height = height;
-
-        this._seed = seed;
-        this._rng = new RNG(seed);
 
         this._startTime = Date.now();
         this._isRunning = true;
@@ -98,6 +109,16 @@ export class Minesweeper {
 
         this._gameActive = true;
         this._won = false;
+
+        if (isNumeric(seed) && !isFinite(parseFloat(seed)))
+            seed = "infinity";
+
+        this._seed = seed;
+
+        if (isNumeric(seed) && parseFloat(seed) > 0)
+            this._rng = new RNG(Math.abs(parseFloat(seed)));
+        else
+            this._rng = new RNG(hashString(seed + ""));
 
         if (width < 1)
             throwDimensionError('width', width);

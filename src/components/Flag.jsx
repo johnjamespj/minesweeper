@@ -1,4 +1,4 @@
-export default (props) => (
+const Flag = (props) => (
     <svg x="0px" y="0px" viewBox="0 0 475.429 475.429" {...props}>
         <g>
             <path d="M306.908,164.571l78.89-86.204c2.121-2.236,2.734-5.507,1.567-8.359c-1.367-2.812-4.189-4.626-7.314-4.702H126.663
@@ -8,4 +8,6 @@ export default (props) => (
 			L306.908,164.571z"/>
         </g>
     </svg>
-)
+);
+
+export default Flag;
