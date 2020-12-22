@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from './Grid';
 import { DisplayActionPanel } from './DisplayActionPanel';
 import { GridItem } from './GridItem';
+import styled from 'styled-components';
+
+const Center = styled.div`
+  display: grid;  
+  place-content: center;
+  height: max(524px, 100vh);
+`;
 
 export function GameBoard({ mine, onWin, onLose, onNewGame }) {
   const [grid, setGrid] = useState(() => mine.grid);
@@ -72,11 +79,13 @@ export function GameBoard({ mine, onWin, onLose, onNewGame }) {
   };
 
   return (
-    <div onContextMenu={onContextMenu}>
-      <Grid x={10}>
-        {grid.map((cell, k) => <GridItem key={k} cell={cell} x={Math.floor(k / 10)} y={k % 10} isActive={isActive} onFlag={onFlag} onOpen={onOpen} />)}
-      </Grid>
-      <DisplayActionPanel time={time} moves={moves} mineCount={mine.mineCount} flags={flags} seed={mine.seed} onTogglePause={onTogglePause} onNewGame={onNewGame} />
-    </div>
+    <Center onContextMenu={onContextMenu}>
+      <div>
+        <Grid x={10}>
+          {grid.map((cell, k) => <GridItem key={k} cell={cell} x={Math.floor(k / 10)} y={k % 10} isActive={isActive} onFlag={onFlag} onOpen={onOpen} />)}
+        </Grid>
+        <DisplayActionPanel time={time} moves={moves} mineCount={mine.mineCount} paused={paused} flags={flags} onTogglePause={onTogglePause} onNewGame={onNewGame} />
+      </div>
+    </Center>
   );
 }
